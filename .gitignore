@@ -1,0 +1,102 @@
+# =========================
+# Build / Compiled files
+# =========================
+
+build/
+bin/
+obj/
+out/
+dist/
+
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+
+# =========================
+# C / C++ generated files
+# =========================
+
+*.gch
+*.pch
+*.ilk
+*.pdb
+*.dSYM/
+
+# =========================
+# CMake
+# =========================
+
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+
+# Keep the root Makefile if you create one manually
+!Makefile
+
+# =========================
+# IDEs / Editors
+# =========================
+
+.vscode/
+.idea/
+.vs/
+
+*.swp
+*.swo
+*~
+
+# =========================
+# OS files
+# =========================
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Linux
+.directory
+
+# =========================
+# Logs
+# =========================
+
+*.log
+
+# =========================
+# Temporary files
+# =========================
+
+*.tmp
+*.temp
+*.bak
+*.cache
+
+# =========================
+# Test / coverage output
+# =========================
+
+coverage/
+*.gcda
+*.gcno
+*.gcov
+
+# =========================
+# Local configuration
+# =========================
+
+.env
+.env.*
+!.env.example
