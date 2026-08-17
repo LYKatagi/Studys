@@ -1,3 +1,0 @@
-[[nodiscard]] std::string reverse_string(std::string&& str) noexcept;
-[[nodiscard]] std::string reverse_string(std::string_view str);
-[[nodiscard]] std::string reverse_string(const char* str);

@@ -1,3 +1,0 @@
-# Introduction
-
-%{concept:vector-arrays}

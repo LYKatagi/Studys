@@ -1,6 +1,0 @@
-{
-  "blurb": "In C++, pointers are variables that store object addresses. They allow you to directly manipulate memory and access to data structures like arrays and objects.",
-  "authors": [
-    "vaeng"
-  ]
-}
