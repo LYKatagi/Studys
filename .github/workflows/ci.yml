@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  run-c-tests:
+    name: Run C exercises tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: sudo apt-get update && sudo apt-get install -y build-essential
+
+      - name: Find and run C tests
+        run: |
+          set -euo pipefail
+          # Find folders that contain tests/test.c
+          mapfile -t test_dirs < <(find src -type f -path '*/tests/test.c' -printf '%h\n' | sort -u)
+          if [ ${#test_dirs[@]} -eq 0 ]; then
+            echo "No tests/test.c files found under src/ — nothing to run."
+            exit 0
+          fi
+          for d in "${test_dirs[@]}"; do
+            echo "=== Running tests in: $d ==="
+            root="$(dirname "$d")"
+            # gather implementation .c files in the exercise root (exclude tests folder)
+            impl_files=$(find "$root" -maxdepth 1 -type f -name '*.c' -not -path '*/tests/*' -print0 | xargs -0 echo || true)
+            if [ -z "$impl_files" ]; then
+              # fallback: look one level deeper
+              impl_files=$(find "$root" -type f -name '*.c' -not -path '*/tests/*' -print0 | xargs -0 echo || true)
+            fi
+            echo "Implementation files: $impl_files"
+            # try a couple of include locations
+            include_dirs=("$root/include" "$root/../include" "$root/../../include" "$root")
+            compiled=false
+            for inc in "${include_dirs[@]}"; do
+              if [ -d "$inc" ] || [ -f "$inc" ]; then
+                echo "Trying include: $inc"
+                gcc -std=c11 -Wall -Wextra $impl_files "$d" -I"$inc" -o "$d/test" && compiled=true && break || true
+              fi
+            done
+            if [ "$compiled" != true ]; then
+              echo "Failed to compile tests in $d"
+              ls -la "$root"
+              exit 1
+            fi
+            (cd "$d" && ./test)
+            echo "=== Passed: $d ==="
+          done
